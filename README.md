@@ -35,7 +35,7 @@ Task definition in order of priority
 
 
 ### Trello
-[Link url](https://trello.com/b/fbGGQjFd/payday-game-dev)
+[PAY-DAY GAME DEV](https://trello.com/b/fbGGQjFd/payday-game-dev)
 
 
 ### Slides
