@@ -1,1 +1,1 @@
-# PAY-DAY-game-dev
+# PAYDAY Game Dev
