@@ -9,21 +9,60 @@ let isfalling = false;
 let jump = false;
 let isLeft = false;
 let isRight = false;
-let isIdle = true;
+let isIdleR = true;
+let isIdleL = false;
 let i = 0;
 let count = 0; 
+let charWidth = 50;
 
-function animateIdle(){
-   
- brush.drawImage(charIdle[i],charX , charY)
+function animateIdleR(){
+
+ brush.drawImage(charIdleR[i],charX , charY)
  count ++;
- if(count > 12){
+ if(count > 10){
     i ++
     count = 0;
  }
  if(i > 3){
      i = 0;
  }
+}
+
+function animateIdleL(){
+
+    brush.drawImage(charIdleL[i],charX , charY)
+    count ++;
+    if(count > 10){
+       i ++
+       count = 0;
+    }
+    if(i > 3){
+        i = 0;
+    }
+}
+
+function animateRight(){
+    brush.drawImage(charRight[i],charX , charY)
+    count ++;
+    if(count > 5){
+       i ++
+       count = 0;
+    }
+    if(i > 3){
+        i = 0;
+    }
+}
+
+function animateLeft(){
+    brush.drawImage(charLeft[i],charX , charY)
+    count ++;
+    if(count > 5){
+       i ++
+       count = 0;
+    }
+    if(i > 3){
+        i = 0;
+    }
 }
 
 function start(){
@@ -39,6 +78,7 @@ if(charY + charIdle1.height > fgY){
     charY += 8
     isfalling = true;
 }
+
 //Jump Mechanics
 
 if(jump){
@@ -47,15 +87,26 @@ if(jump){
 if(charY < fgY - charIdle1.height - 100){
     jump = false
 }
-if(isLeft){
+
+//Character lateral movements and animation
+
+if(isLeft && charX > 0){
     charX -= 5
-}else if(isRight){
-    charX += 5
-}else{
-    isIdle = true;
+    animateLeft()
 }
-if(isIdle){
- animateIdle()   
+if(isRight && charX + charWidth < canvas.width){
+    charX += 5
+    animateRight()
+}
+
+
+
+//Character Idle animations
+
+if(isIdleR){
+ animateIdleR()   
+}else if(isIdleL){
+ animateIdleL()
 }
 
     if(gameOver){
@@ -76,12 +127,14 @@ document.addEventListener('keydown', (event) => {
     if(event.code == 'ArrowRight'){
         isRight = true;
         isLeft = false;
-        isIdle = false;
+        isIdleR = false;
+        isIdleL = false;
     }
     else if(event.code == 'ArrowLeft'){
         isLeft = true;
         isRight = false;
-        isIdle = false
+        isIdleL = false;
+        isIdleR = false;
     }
 })
 
@@ -91,9 +144,13 @@ document.addEventListener('keyup', (event) => {
     }
     if(event.code == 'ArrowRight'){
         isRight = false;
+        isIdleR = true;
+        isIdleL = false;
     }
     else if(event.code == 'ArrowLeft'){
         isLeft = false;
+        isIdleL = true;
+        isIdleR = false;
     }
 })
 
