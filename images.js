@@ -4,6 +4,9 @@ bg.src = './Images/background2.png'
 let fg = new Image()
 fg.src = './Images/foreground.png'
 
+let platform = new Image()
+platform.src = './Images/platform.png'
+
 //Idle Right
 let charIdle1 = new Image()
 charIdle1.src = './Images/Sprites/Idle/Right/idle1.png'
@@ -47,7 +50,7 @@ charR3.src = 'Images/Sprites/Running/Right/running3.png'
 let charR4 = new Image()
 charR4.src = 'Images/Sprites/Running/Right/running4.png'
 
-charRight = [charR1, charR2, charR3, charR4]
+let charRight = [charR1, charR2, charR3, charR4]
 
 //Running Left
 let charL1 = new Image()
@@ -62,4 +65,48 @@ charL3.src = 'Images/Sprites/Running/Left/running3 left.png'
 let charL4 = new Image()
 charL4.src = 'Images/Sprites/Running/Left/running4 left.png'
 
-charLeft = [charL1, charL2, charL3, charL4]
+let charLeft = [charL1, charL2, charL3, charL4]
+
+//Jump right
+let charJumpR1 = new Image()
+charJumpR1.src = 'Images/Sprites/Jumping/Right/jumping2.png'
+
+let charJumpR2 = new Image()
+charJumpR2.src = 'Images/Sprites/Jumping/Right/jumping3.png'
+
+let charJumpR3 = new Image()
+charJumpR3.src = 'Images/Sprites/Jumping/Right/jumping4.png'
+
+let charJumpR = [charJumpR1, charJumpR2, charJumpR3]
+
+//Jump left
+let charJumpL1 = new Image()
+charJumpL1.src = 'Images/Sprites/Jumping/Left/jumping2 left.png'
+
+let charJumpL2 = new Image()
+charJumpL2.src = 'Images/Sprites/Jumping/Left/jumping3 left.png'
+
+let charJumpL3 = new Image()
+charJumpL3.src = 'Images/Sprites/Jumping/Left/jumping4 left.png'
+
+let charJumpL = [charJumpL1, charJumpL2, charJumpL3]
+
+//cars
+
+let carL1 = new Image()
+carL1.src = 'Images/cars/Car L1.png'
+
+let carL2 = new Image()
+carL2.src = 'Images/cars/Car L2.png'
+
+let carL3 = new Image()
+carL3.src = 'Images/cars/Car L3.png'
+
+let carR1 = new Image()
+carR1.src = 'Images/cars/Car R1.png'
+
+let carR2 = new Image()
+carR2.src = 'Images/cars/Car R2.png'
+
+let carR3 = new Image()
+carR3.src = 'Images/cars/Car R3.png'
