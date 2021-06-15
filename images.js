@@ -7,6 +7,15 @@ fg.src = './Images/foreground.png'
 let platform = new Image()
 platform.src = './Images/platform.png'
 
+let paper = new Image()
+paper.src = './Images/collectable.png'
+
+let startScr = new Image()
+startScr.src = './Images/start.png'
+
+let endScr = new Image()
+endScr.src = './Images/Game over.png'
+
 //Idle Right
 let charIdle1 = new Image()
 charIdle1.src = './Images/Sprites/Idle/Right/idle1.png'
@@ -110,3 +119,48 @@ carR2.src = 'Images/cars/Car R2.png'
 
 let carR3 = new Image()
 carR3.src = 'Images/cars/Car R3.png'
+
+let cars = [carR1,carR2,carR3,carL1,carL2,carL3]
+
+//boss sprites
+let b1 = new Image()
+b1.src = 'Images/Sprites/boss/boss 1.png'
+
+let b2 = new Image()
+b2.src = 'Images/Sprites/boss/boss 2.png'
+
+let b3 = new Image()
+b3.src = 'Images/Sprites/boss/boss 3.png'
+
+let b4 = new Image()
+b4.src = 'Images/Sprites/boss/boss 4.png'
+
+let b5 = new Image()
+b5.src = 'Images/Sprites/boss/boss 5.png'
+
+let b6 = new Image()
+b6.src = 'Images/Sprites/boss/boss 6.png'
+
+let b7 = new Image()
+b7.src = 'Images/Sprites/boss/boss 7.png'
+
+let b8 = new Image()
+b8.src = 'Images/Sprites/boss/boss 8.png'
+
+let b9 = new Image()
+b9.src = 'Images/Sprites/boss/boss 9.png'
+
+let boss = [b1,b2,b3,b4,b5,b6,b7,b8,b9,charIdle1, charIdle2, charIdle3, charIdle4]
+
+//dizzy gameover screen sprite
+
+let dizzy1 = new Image()
+dizzy1.src = 'Images/Sprites/Dizzy/dizzy1.png'
+
+let dizzy2 = new Image()
+dizzy2.src = 'Images/Sprites/Dizzy/dizzy2.png'
+
+let dizzy3 = new Image()
+dizzy3.src = 'Images/Sprites/Dizzy/dizzy3.png'
+
+let dizzy = [dizzy1,dizzy2,dizzy3]
