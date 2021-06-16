@@ -293,19 +293,6 @@ function animateGame() {
         }
     })
 
-    if(restart){
-        if(papers == 0){
-        charX = 50
-        charY = ground - 180 - charIdle1.height;
-        }else{
-            charX = colX
-            charY = colY - charIdle1.height
-        }
-        restart = false;
-    } else if(lives == 0){
-        gameOver = true;
-    }
-
     if (gameOver) {
         cancelAnimationFrame(animate)
         canvas.style.display = 'flex'
