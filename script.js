@@ -5,10 +5,12 @@ let startBtn = document.querySelector('#startBtn')
 let restartBtn = document.querySelector('#restartBtn')
 let introBtn = document.querySelector('#intro')
 let backBtn = document.querySelector('#backBtn')
+let soundBtn = document.querySelector('#sound')
 restartBtn.style.display = 'none'
 backBtn.style.display = 'none'
 canvas.style.display = 'flex'
 startBtn.style.display = 'flex'
+soundBtn.style.display = 'flex'
 
 //Game Variables
 let gameOver = false;
@@ -47,28 +49,28 @@ let lives = 3;
 let restart = false;
 let movPlatX = 200;
 let platDirection = '';
-let movPlatY = platbase - 450;
+let movPlatY = platbase - 400;
 let platVert = '';
 let carsRight = [{
-     x: carR1X,
-     y: roadbase - carL1.height - 55
-    }, {
-     x: carR2X,
-     y: roadbase - carL1.height - 80
-    }, {
-     x: carR3X,
-     y: roadbase - carL1.height - 33
-    }]
+    x: carR1X,
+    y: roadbase - carL1.height - 55
+}, {
+    x: carR2X,
+    y: roadbase - carL1.height - 80
+}, {
+    x: carR3X,
+    y: roadbase - carL1.height - 33
+}]
 let carsLeft = [{
-     x: carL1X,
-     y: roadbase - carL1.height
-    }, {
-     x: carL2X,
-     y: roadbase - carL1.height - 25
-    }, {
-     x: carL3X,
-     y: roadbase - carL1.height + 10
-    }]
+    x: carL1X,
+    y: roadbase - carL1.height
+}, {
+    x: carL2X,
+    y: roadbase - carL1.height - 25
+}, {
+    x: carL3X,
+    y: roadbase - carL1.height + 10
+}]
 
 //Functions
 
@@ -134,11 +136,11 @@ function carChar() {
     }
 }
 
-function bossAnimation(x,y){
+function bossAnimation(x, y) {
 
     brush.drawImage(boss[bossI], x, y)
     bossCount++;
-    if (bossCount > 25){
+    if (bossCount > 25) {
         bossI++
         bossCount = 0;
     }
@@ -147,22 +149,22 @@ function bossAnimation(x,y){
     }
 
     if (charX + charWidth > x && charX < x + charWidth && papers !== 0) {
-        if (charY + charIdle1.height/2 < y || charY + charIdle1.height - 10 > y + charIdle1.height) {
+        if (charY + charIdle1.height / 2 < y || charY + charIdle1.height - 10 > y + charIdle1.height) {
             level += 1
             papers = 0;
         }
     }
 }
 
-function drawCollectable(x,y){
-    
-    
+function drawCollectable(x, y) {
+
+
     if (charX + charWidth > x && charX < x + paper.width && paperCont) {
-        if (charY + charIdle1.height/2 < y || charY + charIdle1.height - 10 > y + paper.height) {
+        if (charY + charIdle1.height / 2 < y || charY + charIdle1.height - 10 > y + paper.height) {
             paperCont = false;
             papers += 1
         }
-    }else if(paperCont){
+    } else if (paperCont) {
         brush.drawImage(paper, x, y)
     }
 }
@@ -170,19 +172,34 @@ function drawCollectable(x,y){
 function charJump() {
     charY -= 180
 }
-function drawStart(){
-    brush.drawImage(startScr,0,0)
+
+function drawStart() {
+    brush.drawImage(startScr, 0, 0)
 }
 
-function drawIntro(){
-    brush.drawImage(introScr,0,0)
+function drawIntro() {
+    brush.drawImage(introScr, 0, 0)
+
+    brush.beginPath()
+    brush.fillStyle = '#ffee30'
+    brush.font = '30px Hanson'
+    brush.fillText(`USE THE LEFT AND RIGHT`, 490, 260)
+    brush.fillText(`ARROW KEYS TO MOVE`, 520, 290)
+    brush.fillText(`USE THE SPACE BAR TO JUMP`, 465, 440)
+    brush.fillText('YOUR GOAL IS TO COLLECT ALL',265, 540)
+    brush.fillText('PAPERS REQUIRED IN THE LEVEL',265, 580)
+    brush.fillText('AND DELIVER THEM TO YOUR BOSS',235, 620)
+    brush.closePath()
 }
+
+//Boss Animation Variables
 let frameI = 0
 let frameCount = 0;
 let endAnimation = null;
-function drawEnd(){
-    
-    brush.drawImage(endScr,0,0)
+
+function drawEnd() {
+
+    brush.drawImage(endScr, 0, 0)
     brush.drawImage(dizzy[frameI], 100, 0)
     frameCount++;
     if (frameCount > 15) {
@@ -192,11 +209,31 @@ function drawEnd(){
     if (frameI > 2) {
         frameI = 0;
     }
-    
+
+    brush.beginPath()
+    brush.fillStyle = '#ffee30'
+    brush.font = '120px Hanson'
+    brush.fillText(`${level}`, 865, 350)
+    brush.strokeStyle = '#ffee30'
+    brush.arc(906, 312, 70, 0, 2 * Math.PI)
+    brush.stroke()
+    brush.closePath()
+
+    brush.beginPath()
+    brush.font = '30px Hanson'
+    if (level > 1) {
+        brush.fillText(`LEVELS`, 830, 420)
+    } else {
+        brush.fillText(`LEVEL`, 844, 420)
+    }
+    brush.fillText(`COMPLETED`, 785, 460)
+    brush.closePath()
+
     endAnimation = requestAnimationFrame(drawEnd)
 }
 
 function animateGame() {
+
     brush.clearRect(0, 0, canvas.width, canvas.height)
     //Foreground and background
     brush.drawImage(bg, 0, 0)
@@ -223,10 +260,11 @@ function animateGame() {
         }
     }
     //calling levels
-    if(levelOne){
-      level1()  
+    if (levelOne) {
+        level1()
+        reqPaper = 1;
     }
-    
+
     //Gravity
 
     if (charY + charIdle1.height > ground) {
@@ -256,18 +294,21 @@ function animateGame() {
     }
     //Score
     brush.beginPath()
+    brush.fillStyle = 'black'
     brush.font = '30px Hanson'
     brush.fillText(`Level: ${level}`, 1000, 50)
     //brush.fillText(`Papers: ${papers}`, 1000, 100)
     brush.fillText(`Lives: ${lives}`, 50, 50)
     brush.closePath()
     //Requirement to finish level
-    reqPaper = 1;
-    if(papers !== 0){
-        reqPaper -= papers; 
+    if (papers !== 0) {
+        reqPaper -= papers;
     }
+    brush.beginPath()
+    brush.fillStyle = 'black'
     brush.font = '20px Hanson'
-    brush.fillText(`You need: ${reqPaper} Papers to pass this level`, canvas.width/2 - 250, 30)
+    brush.fillText(`You need: ${reqPaper} Papers to pass this level`, canvas.width / 2 - 250, 30)
+    brush.closePath()
     //Character Idle animations
 
     if (isIdleR) {
@@ -276,12 +317,13 @@ function animateGame() {
         animateIdleL()
     }
     
+    //Car Collisions
     carsRight.forEach((elem) => {
         if (charX + charWidth > elem.x && charX < elem.x + 200) {
             if (charY + charIdle1.height > elem.y + 50 && lives != 0) {
                 restart = true;
                 lives -= 1;
-            } 
+            }
         }
     })
     carsLeft.forEach((elem) => {
@@ -292,34 +334,37 @@ function animateGame() {
             }
         }
     })
-
+    
+    //Gameover Check
     if (gameOver) {
         cancelAnimationFrame(animate)
         canvas.style.display = 'flex'
-        brush.clearRect(0,0, canvas.width, canvas.height)
+        brush.clearRect(0, 0, canvas.width, canvas.height)
         restartBtn.style.display = 'flex'
         startBtn.style.display = 'none'
         introBtn.style.display = 'none'
         backBtn.style.display = 'none'
+        soundBtn.style.display = 'none'
         gameOver = false;
         drawEnd()
+
     } else {
         animate = requestAnimationFrame(start)
         startBtn.style.display = 'none'
         restartBtn.style.display = 'none'
         introBtn.style.display = 'none'
         backBtn.style.display = 'none'
+        soundBtn.style.display = 'none'
     }
 }
 
-function start(){
+function start() {
     animateGame()
 }
 
 window.addEventListener('load', () => {
 
     drawStart()
-    
     document.addEventListener('keydown', (event) => {
         if (event.code == 'Space') {
             jump = true;
@@ -353,41 +398,52 @@ window.addEventListener('load', () => {
     })
 
     startBtn.addEventListener('click', () => {
-      brush.clearRect(0,0,canvas.width, canvas.height)   
-      start()  
+        brush.clearRect(0, 0, canvas.width, canvas.height)
+        start()
     })
-    
+
+    soundBtn.addEventListener('click', () => {
+        if(soundBtn.innerHTML == 'MUSIC: OFF'){
+            soundBtn.innerHTML = 'MUSIC: ON'
+        }else{
+            soundBtn.innerHTML = 'MUSIC: OFF'
+        }
+    })
+
     introBtn.addEventListener('click', () => {
-        brush.clearRect(0,0,canvas.width, canvas.height)
+        brush.clearRect(0, 0, canvas.width, canvas.height)
         drawIntro()
         restartBtn.style.display = 'none'
         introBtn.style.display = 'none'
         backBtn.style.display = 'flex'
         startBtn.style.display = 'none'
+        soundBtn.style.display = 'none'
     })
 
     backBtn.addEventListener('click', () => {
-        brush.clearRect(0,0,canvas.width,canvas.height)
+        brush.clearRect(0, 0, canvas.width, canvas.height)
         drawStart()
         restartBtn.style.display = 'none'
         startBtn.style.display = 'flex'
         introBtn.style.display = 'flex'
         backBtn.style.display = 'none'
+        soundBtn.style.display = 'flex'
     })
-    
+
     restartBtn.addEventListener('click', () => {
-        brush.clearRect(0,0,canvas.width,canvas.width)
+        brush.clearRect(0, 0, canvas.width, canvas.width)
         cancelAnimationFrame(endAnimation)
         drawStart()
         restartBtn.style.display = 'none'
         startBtn.style.display = 'flex'
         introBtn.style.display = 'flex'
+        soundBtn.style.display = 'flex'
         backBtn.style.display = 'none'
         gameOver = false;
         animate = null;
         ground = canvas.height - fg.height
         charX = 50,
-        charY = ground - 180 - charIdle1.height;
+            charY = ground - 180 - charIdle1.height;
         jump = false;
         isLeft = false;
         isRight = false;

@@ -14,7 +14,7 @@ function level1(){
         y: platbase - 200
     }, {
         x: 1000,
-        y: platbase - 350
+        y: platbase - 450
     },{
         x: - 50,
         y: platbase - 180
@@ -58,12 +58,12 @@ function level1(){
     if (platforms[1].y >= (platbase - 250)) {
         platVert = 'down'
         movPlatY -= 1;
-    } else if (platforms[1].y <= (platbase - 450)) {
+    } else if (platforms[1].y <= (platbase - 400)) {
         platVert = 'up';
         movPlatY += 1;
     }
 
-    if (platforms[1].y > (platbase - 450) && platforms[1].y < (platbase - 250)) {
+    if (platforms[1].y > (platbase - 400) && platforms[1].y < (platbase - 250)) {
         if (platVert === 'up') {
             movPlatY += 2;
         } else if (platVert === 'down') {
@@ -72,9 +72,15 @@ function level1(){
     }
     //to keep character on vertical moving platform
     if (charX + charWidth > platforms[1].x && charX < platforms[1].x + platform.width) {
-        if (charY + charIdle1.height > platforms[1].y && charY + charIdle1.height < platforms[1].y + 10) {
+        if (charY + charIdle1.height >= platforms[1].y && charY + charIdle1.height <= platforms[1].y + 10) {
             ground = movPlatY
             charY = movPlatY - charIdle1.height
+            if (jump && charY >= ground - charIdle1.height) {
+                charJump();
+            }
+            if (charY !== ground - charIdle1.height) {
+                jump = false;
+            }        
         }
     }
     //Platform collisions
