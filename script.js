@@ -3,8 +3,12 @@ canvas.style.backgroundColor = 'lightgrey'
 let brush = canvas.getContext('2d')
 let startBtn = document.querySelector('#startBtn')
 let restartBtn = document.querySelector('#restartBtn')
+let introBtn = document.querySelector('#intro')
+let backBtn = document.querySelector('#backBtn')
 restartBtn.style.display = 'none'
-canvas.style.display = 'block'
+backBtn.style.display = 'none'
+canvas.style.display = 'flex'
+startBtn.style.display = 'flex'
 
 //Game Variables
 let gameOver = false;
@@ -31,6 +35,11 @@ let charWidth = 50;
 let platbase = canvas.height - fg.height + 30
 let roadbase = canvas.height - 10
 let level = 1;
+let levelOne = true;
+let levelTwo = false;
+let levelThree = false;
+let levelFour = false;
+let levelFive = false;
 let papers = 0;
 let reqPaper = 0;
 let paperCont = true;
@@ -141,7 +150,6 @@ function bossAnimation(x,y){
         if (charY + charIdle1.height/2 < y || charY + charIdle1.height - 10 > y + charIdle1.height) {
             level += 1
             papers = 0;
-            nextLevel = true;
         }
     }
 }
@@ -164,6 +172,10 @@ function charJump() {
 }
 function drawStart(){
     brush.drawImage(startScr,0,0)
+}
+
+function drawIntro(){
+    brush.drawImage(introScr,0,0)
 }
 let frameI = 0
 let frameCount = 0;
@@ -210,96 +222,11 @@ function animateGame() {
             carsLeft[i].x = 1200
         }
     }
-    //Platforms Array
-    let platforms = [{
-        x: 50,
-        y: platbase - 180
-    }, {
-        x: 800,
-        y: movPlatY
-    }, {
-        x: movPlatX,
-        y: platbase - 250
-    }, {
-        x: 600,
-        y: platbase - 200
-    }, {
-        x: 1000,
-        y: platbase - 350
-    },{
-        x: - 50,
-        y: platbase - 180
-    },{
-        x: 300,
-        y: platbase - 400
-    }]
-    let p = platforms.length - 1
-    //Draw platforms from array values
+    //calling levels
+    if(levelOne){
+      level1()  
+    }
     
-    for (let i = 0; i < platforms.length; i++) {
-        brush.drawImage(platform, platforms[i].x, platforms[i].y)
-    }
-    //Draw collectable
-    let colX = platforms[4].x + 25;
-    let colY = platforms[4].y 
- 
-    drawCollectable(colX, colY - paper.height)
-    
-    //Draw boss on last platform in array
-    bossAnimation(platforms[p].x + 25, platforms[p].y - b1.height)
-
-    //platform side to side movement - (put in function after mvp)
-    if (platforms[2].x >= 450) {
-        platDirection = 'left'
-        movPlatX -= 1;
-    } else if (platforms[2].x <= 200) {
-        platDirection = 'right';
-        movPlatX += 1;
-    }
-
-    if (platforms[2].x > 200 && platforms[2].x < 450) {
-        if (platDirection === 'right') {
-            movPlatX += 2;
-        } else if (platDirection === 'left') {
-            movPlatX -= 2;
-        }
-    }
-
-    //platform up and down movement
-    if (platforms[1].y >= (platbase - 250)) {
-        platVert = 'down'
-        movPlatY -= 1;
-    } else if (platforms[1].y <= (platbase - 450)) {
-        platVert = 'up';
-        movPlatY += 1;
-    }
-
-    if (platforms[1].y > (platbase - 450) && platforms[1].y < (platbase - 250)) {
-        if (platVert === 'up') {
-            movPlatY += 2;
-        } else if (platVert === 'down') {
-            movPlatY -= 2;
-        }
-    }
-    //to keep character on vertical moving platform
-    if (charX + charWidth > platforms[1].x && charX < platforms[1].x + platform.width) {
-        if (charY + charIdle1.height > platforms[1].y && charY + charIdle1.height < platforms[1].y + 10) {
-            ground = movPlatY
-            charY = movPlatY - charIdle1.height
-        }
-    }
-    //Platform collisions
-    for (let i = 0; i < platforms.length; i++) {
-        if (charX + charWidth > platforms[i].x && charX < platforms[i].x + platform.width) {
-            if (charY + charIdle1.height > platforms[i].y && charY + charIdle1.height < platforms[i].y + 10) {
-                ground = platforms[i].y
-                break;
-            }
-        } else {
-            ground = canvas.height - fg.height + 30;
-        }
-    }
-
     //Gravity
 
     if (charY + charIdle1.height > ground) {
@@ -329,7 +256,7 @@ function animateGame() {
     }
     //Score
     brush.beginPath()
-    brush.font = '30px verdana'
+    brush.font = '30px Hanson'
     brush.fillText(`Level: ${level}`, 1000, 50)
     //brush.fillText(`Papers: ${papers}`, 1000, 100)
     brush.fillText(`Lives: ${lives}`, 50, 50)
@@ -339,8 +266,8 @@ function animateGame() {
     if(papers !== 0){
         reqPaper -= papers; 
     }
-    brush.font = '20px verdana'
-    brush.fillText(`You need: ${reqPaper} Papers to pass this level`, canvas.width/2 - 200, 30)
+    brush.font = '20px Hanson'
+    brush.fillText(`You need: ${reqPaper} Papers to pass this level`, canvas.width/2 - 250, 30)
     //Character Idle animations
 
     if (isIdleR) {
@@ -381,16 +308,20 @@ function animateGame() {
 
     if (gameOver) {
         cancelAnimationFrame(animate)
-        canvas.style.display = 'block'
+        canvas.style.display = 'flex'
         brush.clearRect(0,0, canvas.width, canvas.height)
-        restartBtn.style.display = 'block'
+        restartBtn.style.display = 'flex'
         startBtn.style.display = 'none'
+        introBtn.style.display = 'none'
+        backBtn.style.display = 'none'
         gameOver = false;
         drawEnd()
     } else {
         animate = requestAnimationFrame(start)
         startBtn.style.display = 'none'
         restartBtn.style.display = 'none'
+        introBtn.style.display = 'none'
+        backBtn.style.display = 'none'
     }
 }
 
@@ -439,12 +370,32 @@ window.addEventListener('load', () => {
       start()  
     })
     
+    introBtn.addEventListener('click', () => {
+        brush.clearRect(0,0,canvas.width, canvas.height)
+        drawIntro()
+        restartBtn.style.display = 'none'
+        introBtn.style.display = 'none'
+        backBtn.style.display = 'flex'
+        startBtn.style.display = 'none'
+    })
+
+    backBtn.addEventListener('click', () => {
+        brush.clearRect(0,0,canvas.width,canvas.height)
+        drawStart()
+        restartBtn.style.display = 'none'
+        startBtn.style.display = 'flex'
+        introBtn.style.display = 'flex'
+        backBtn.style.display = 'none'
+    })
+    
     restartBtn.addEventListener('click', () => {
         brush.clearRect(0,0,canvas.width,canvas.width)
         cancelAnimationFrame(endAnimation)
         drawStart()
         restartBtn.style.display = 'none'
-        startBtn.style.display = 'block'
+        startBtn.style.display = 'flex'
+        introBtn.style.display = 'flex'
+        backBtn.style.display = 'none'
         gameOver = false;
         animate = null;
         ground = canvas.height - fg.height
@@ -479,5 +430,4 @@ window.addEventListener('load', () => {
         movPlatY = platbase - 450;
         platVert = '';
     })
-    
 })

@@ -3,13 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <link rel="stylesheet" href="./styles.css">
     <title>PAY-DAY</title>
 </head>
 <body>
-    <button id="startBtn">Start</button>
-    <canvas id="canvas" width="1200px" height="690px"></canvas> 
-    <button id="restartBtn">Restart</button>
+<div id="parent">   
+    <div class="child1">
+       <button id="startBtn">Start</button>
+       <button id="intro">Instructions</button>
+       <button id="backBtn">Back</button>
+    </div>
+       <canvas id="canvas" width="1200px" height="690px"></canvas> 
+    <div class="child2">
+       <button id="restartBtn">Restart</button>
+    </div> 
+</div> 
     <script src="images.js"></script>
+    <script src="levels.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

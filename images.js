@@ -16,6 +16,9 @@ startScr.src = './Images/start.png'
 let endScr = new Image()
 endScr.src = './Images/Game over.png'
 
+let introScr = new Image()
+introScr.src = './Images/Intro.png'
+
 //Idle Right
 let charIdle1 = new Image()
 charIdle1.src = './Images/Sprites/Idle/Right/idle1.png'
@@ -150,7 +153,7 @@ b8.src = 'Images/Sprites/boss/boss 8.png'
 let b9 = new Image()
 b9.src = 'Images/Sprites/boss/boss 9.png'
 
-let boss = [b1,b2,b3,b4,b5,b6,b7,b8,b9,charIdle1, charIdle2, charIdle3, charIdle4]
+let boss = [b1,b2,b3,b4,b5,b6,b7,b8,b9,b1,b2,b3,b4]
 
 //dizzy gameover screen sprite
 
