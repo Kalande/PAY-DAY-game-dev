@@ -40,17 +40,18 @@ let i = 0;
 let count = 0;
 let bossI = 0;
 let bossCount = 0;
-let charWidth = 50;
+let charWidth = charIdle1.width;
 let platbase = canvas.height - fg.height + 30
 let roadbase = canvas.height - 10
-let level = 1;
-let levelOne = true;
-let levelTwo = false;
+let level = 2;
+let levelOne = false;
+let levelTwo = true;
 let levelThree = false;
 let levelFour = false;
 let levelFive = false;
 let papers = 0;
 let reqPaper = 0;
+let paperCont2 = true;
 let paperCont = true;
 let lives = 3;
 let restart = false;
@@ -172,15 +173,27 @@ function bossAnimation(x, y) {
 function drawCollectable(x, y) {
 
 
-    if (charX + charWidth > x && charX < x + paper.width && paperCont) {
-        if (charY + charIdle1.height / 2 < y || charY + charIdle1.height - 10 > y + paper.height) {
+    if ((charX + charWidth > x && charX < x + paper.width) && paperCont && (charY + (charIdle1.height/2) + 25 > y && charY + charIdle1.height/2 + 25 < y + paper.height)){
             paperCont = false;
             papers += 1
-        }
-    } else if (paperCont) {
+    }
+     else if (paperCont) {
         brush.drawImage(paper, x, y)
     }
 }
+
+function drawCollectable2(x2, y2) {
+
+
+    if ((charX + charWidth > x2 && charX < x2 + paper.width) && paperCont2 && (charY + (charIdle1.height/2) + 25 > y2 && charY + charIdle1.height/2 + 25 < y2 + paper.height)) {
+            paperCont2 = false;
+            papers += 1
+        }
+    else if (paperCont2) {
+        brush.drawImage(paper, x2, y2)
+    }
+}
+
 
 //Jump function
 
@@ -242,7 +255,7 @@ function drawEnd() {
     brush.beginPath()
     brush.fillStyle = '#ffee30'
     brush.font = '120px Hanson'
-    brush.fillText(`${level}`, 865, 350)
+    brush.fillText(`${level}`, 865, 350, 80)
     brush.strokeStyle = '#ffee30'
     brush.arc(906, 312, 70, 0, 2 * Math.PI)
     brush.stroke()
@@ -305,9 +318,16 @@ function animateGame() {
     //calling levels
     //=======================
 
-    if (levelOne) {
+    if(levelOne && level == 1) {
         level1()
         reqPaper = 1;
+        levelTwo = true;
+    }
+    else if(levelTwo && level == 2){
+        levelOne = false;
+        level2()
+        reqPaper = 2;
+        
     }
 
     //=======================
@@ -432,7 +452,8 @@ function start() {
 
 window.addEventListener('load', () => {
 
-    drawStart()
+    //drawStart()
+    start()
 
     document.addEventListener('keydown', (event) => {
         if (event.code == 'Space') {
@@ -532,6 +553,11 @@ window.addEventListener('load', () => {
         platbase = canvas.height - fg.height + 30
         roadbase = canvas.height - 10
         level = 1;
+        levelOne = true;
+        levelTwo = false;
+        levelThree = false;
+        levelFour = false;
+        levelFive = false;
         papers = 0;
         reqPaper = 0;
         paperCont = true;
