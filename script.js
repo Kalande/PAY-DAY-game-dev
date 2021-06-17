@@ -1,3 +1,7 @@
+//=======================
+// DOM MANIPULATIONS
+//=======================
+
 let canvas = document.querySelector('canvas')
 canvas.style.backgroundColor = 'lightgrey'
 let brush = canvas.getContext('2d')
@@ -12,7 +16,10 @@ canvas.style.display = 'flex'
 startBtn.style.display = 'flex'
 soundBtn.style.display = 'flex'
 
-//Game Variables
+//=======================
+//Default Game Variables
+//=======================
+
 let gameOver = false;
 let animate = null;
 let ground = canvas.height - fg.height
@@ -72,7 +79,9 @@ let carsLeft = [{
     y: roadbase - carL1.height + 10
 }]
 
-//Functions
+//=======================
+//Character Animation functions
+//=======================
 
 function animateIdleR() {
 
@@ -156,6 +165,10 @@ function bossAnimation(x, y) {
     }
 }
 
+//=======================
+//Collectable function
+//=======================
+
 function drawCollectable(x, y) {
 
 
@@ -169,13 +182,23 @@ function drawCollectable(x, y) {
     }
 }
 
+//Jump function
+
 function charJump() {
     charY -= 180
 }
 
+//=======================
+//Start Screen
+//=======================
+
 function drawStart() {
     brush.drawImage(startScr, 0, 0)
 }
+
+//=======================
+//Instructions Screen
+//=======================
 
 function drawIntro() {
     brush.drawImage(introScr, 0, 0)
@@ -192,7 +215,13 @@ function drawIntro() {
     brush.closePath()
 }
 
-//Boss Animation Variables
+
+
+//=======================
+//End Screen
+//=======================
+
+//End Screen Animation Variables
 let frameI = 0
 let frameCount = 0;
 let endAnimation = null;
@@ -232,13 +261,22 @@ function drawEnd() {
     endAnimation = requestAnimationFrame(drawEnd)
 }
 
+//=======================
+//Main Function - Game Core
+//=======================
+
 function animateGame() {
 
     brush.clearRect(0, 0, canvas.width, canvas.height)
+
     //Foreground and background
+
     brush.drawImage(bg, 0, 0)
     brush.drawImage(fg, 0, platbase - 30)
-    //cars
+    //=======================
+    //Drawing cars
+    //=======================
+
     brush.drawImage(carR1, carsRight[0].x, carsRight[0].y)
     brush.drawImage(carR2, carsRight[1].x, carsRight[1].y)
     brush.drawImage(carR3, carsRight[2].x, carsRight[2].y)
@@ -247,7 +285,11 @@ function animateGame() {
     brush.drawImage(carL2, carsLeft[1].x, carsLeft[1].y)
     carChar()
     brush.drawImage(carL3, carsLeft[2].x, carsLeft[2].y)
+    
+    //=======================
     //Car movement
+    //=======================
+
     for (let i = 0; i < carsRight.length; i++) {
         carsRight[i].x = carsRight[i].x + 3
         carsLeft[i].x = carsLeft[i].x - 3
@@ -259,13 +301,18 @@ function animateGame() {
             carsLeft[i].x = 1200
         }
     }
+    //=======================
     //calling levels
+    //=======================
+
     if (levelOne) {
         level1()
         reqPaper = 1;
     }
 
+    //=======================
     //Gravity
+    //=======================
 
     if (charY + charIdle1.height > ground) {
         charY += 0;
@@ -273,7 +320,7 @@ function animateGame() {
         charY += 8
     }
 
-    //Jump Mechanics
+         //Jump Mechanics
 
     if (jump && charY >= ground - charIdle1.height) {
         charJump();
@@ -282,7 +329,9 @@ function animateGame() {
         jump = false;
     }
 
+    //=======================
     //Character lateral movements and animation
+    //=======================
 
     if (isLeft && charX > 0) {
         charX -= 5
@@ -292,15 +341,21 @@ function animateGame() {
         charX += 5
         animateRight()
     }
+    //=======================
     //Score
+    //=======================
+
     brush.beginPath()
     brush.fillStyle = 'black'
     brush.font = '30px Hanson'
     brush.fillText(`Level: ${level}`, 1000, 50)
-    //brush.fillText(`Papers: ${papers}`, 1000, 100)
     brush.fillText(`Lives: ${lives}`, 50, 50)
     brush.closePath()
+
+    //=======================
     //Requirement to finish level
+    //=======================
+
     if (papers !== 0) {
         reqPaper -= papers;
     }
@@ -309,15 +364,20 @@ function animateGame() {
     brush.font = '20px Hanson'
     brush.fillText(`You need: ${reqPaper} Papers to pass this level`, canvas.width / 2 - 250, 30)
     brush.closePath()
+
+    //=======================
     //Character Idle animations
+    //=======================
 
     if (isIdleR) {
         animateIdleR()
     } else if (isIdleL) {
         animateIdleL()
     }
-    
+    //=======================
     //Car Collisions
+    //=======================
+
     carsRight.forEach((elem) => {
         if (charX + charWidth > elem.x && charX < elem.x + 200) {
             if (charY + charIdle1.height > elem.y + 50 && lives != 0) {
@@ -334,8 +394,10 @@ function animateGame() {
             }
         }
     })
-    
+    //=======================
     //Gameover Check
+    //=======================
+
     if (gameOver) {
         cancelAnimationFrame(animate)
         canvas.style.display = 'flex'
@@ -358,13 +420,20 @@ function animateGame() {
     }
 }
 
+//Start function
+
 function start() {
     animateGame()
 }
 
+//=======================
+//Event listeners
+//=======================
+
 window.addEventListener('load', () => {
 
     drawStart()
+
     document.addEventListener('keydown', (event) => {
         if (event.code == 'Space') {
             jump = true;

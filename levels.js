@@ -1,5 +1,8 @@
 function level1(){
+    //=======================
     //Platforms Array
+    //=======================
+
     let platforms = [{
         x: 50,
         y: platbase - 180
@@ -23,21 +26,24 @@ function level1(){
         y: platbase - 400
     }]
     let p = platforms.length - 1
+
     //Draw platforms from array values
-    
     for (let i = 0; i < platforms.length; i++) {
         brush.drawImage(platform, platforms[i].x, platforms[i].y)
     }
+
     //Draw collectable
     let colX = platforms[4].x + 25;
     let colY = platforms[4].y 
- 
     drawCollectable(colX, colY - paper.height)
     
     //Draw boss on last platform in array
     bossAnimation(platforms[p].x + 25, platforms[p].y - b1.height)
 
+    //=======================
     //platform side to side movement - (put in function after mvp)
+    //=======================
+
     if (platforms[2].x >= 450) {
         platDirection = 'left'
         movPlatX -= 1;
@@ -53,8 +59,10 @@ function level1(){
             movPlatX -= 2;
         }
     }
+    //=======================
+    //Platform up and down movement
+    //=======================
 
-    //platform up and down movement
     if (platforms[1].y >= (platbase - 250)) {
         platVert = 'down'
         movPlatY -= 1;
@@ -70,7 +78,9 @@ function level1(){
             movPlatY -= 2;
         }
     }
-    //to keep character on vertical moving platform
+    //=======================
+    //To keep character on vertical moving platform
+    //=======================
     if (charX + charWidth > platforms[1].x && charX < platforms[1].x + platform.width) {
         if (charY + charIdle1.height >= platforms[1].y && charY + charIdle1.height <= platforms[1].y + 10) {
             ground = movPlatY
@@ -83,7 +93,10 @@ function level1(){
             }        
         }
     }
+    //=======================
     //Platform collisions
+    //=======================
+
     for (let i = 0; i < platforms.length; i++) {
         if (charX + charWidth > platforms[i].x && charX < platforms[i].x + platform.width) {
             if (charY + charIdle1.height > platforms[i].y && charY + charIdle1.height < platforms[i].y + 10) {
@@ -94,7 +107,10 @@ function level1(){
             ground = canvas.height - fg.height + 30;
         }
     }
-    
+    //=======================
+    //Restart condition
+    //=======================
+
     if(restart){
         if(papers == 0){
         charX = 50
