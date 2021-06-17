@@ -43,9 +43,9 @@ let bossCount = 0;
 let charWidth = charIdle1.width;
 let platbase = canvas.height - fg.height + 30
 let roadbase = canvas.height - 10
-let level = 2;
-let levelOne = false;
-let levelTwo = true;
+let level = 1;
+let levelOne = true;
+let levelTwo = false;
 let levelThree = false;
 let levelFour = false;
 let levelFive = false;
@@ -158,10 +158,15 @@ function bossAnimation(x, y) {
         bossI = 0;
     }
 
-    if (charX + charWidth > x && charX < x + charWidth && papers !== 0) {
-        if (charY + charIdle1.height / 2 < y || charY + charIdle1.height - 10 > y + charIdle1.height) {
+    if (charX + charWidth > x && charX < x + charWidth && papers !== 0 && reqPaper == 0) {
+        if (charY + charIdle1.height/2 > y || charY + charIdle1.height/2 < y + charIdle1.height) {
             level += 1
             papers = 0;
+            charX = 50,
+            charY = ground - 180 - charIdle1.height;
+            lives = 3
+            paperCont = true;
+            paperCont2 = true;
         }
     }
 }
@@ -327,8 +332,8 @@ function animateGame() {
         levelOne = false;
         level2()
         reqPaper = 2;
-        
     }
+
 
     //=======================
     //Gravity
@@ -452,8 +457,7 @@ function start() {
 
 window.addEventListener('load', () => {
 
-    //drawStart()
-    start()
+    drawStart()
 
     document.addEventListener('keydown', (event) => {
         if (event.code == 'Space') {
