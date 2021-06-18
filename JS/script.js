@@ -448,7 +448,7 @@ function animateGame() {
             startSound.pause()
             startSound.currentTime = 0;
          gameOverSound.play()
-         gameOverSound.volume = 0.1   
+         gameOverSound.volume = 0.15   
         }
         drawEnd()
 
@@ -537,7 +537,7 @@ window.addEventListener('load', () => {
                 }, false)
             }
             startSound.play()
-            startSound.volume = 0.1
+            startSound.volume = 0.15
 
         }else{
             soundBtn.innerHTML = 'MUSIC: OFF'
