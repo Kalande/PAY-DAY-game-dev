@@ -335,6 +335,12 @@ function animateGame() {
         levelOne = false;
         level2()
         reqPaper = 2;
+        levelThree = true;
+    }
+    else if(levelThree && level == 3){
+        levelTwo = false;
+        level3()
+        reqPaper = 1;
     }
 
 
