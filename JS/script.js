@@ -10,6 +10,7 @@ let restartBtn = document.querySelector('#restartBtn')
 let introBtn = document.querySelector('#intro')
 let backBtn = document.querySelector('#backBtn')
 let soundBtn = document.querySelector('#sound')
+let continueBtn = document.querySelector('#continue')
 let startSound = new Audio('./Music/Start music.mp3')
 let gameOverSound = new Audio('./Music/Game Over.mp3')
 let trafficSound = new Audio('./Music/Traffic.mp3')
@@ -18,6 +19,7 @@ backBtn.style.display = 'none'
 canvas.style.display = 'flex'
 startBtn.style.display = 'flex'
 soundBtn.style.display = 'flex'
+continueBtn.style.display = 'none'
 
 //=======================
 //Default Game Variables
@@ -52,6 +54,8 @@ let levelTwo = false;
 let levelThree = false;
 let levelFour = false;
 let levelFive = false;
+let nextlevel = false;
+let moreSoon = false;
 let papers = 0;
 let reqPaper = 0;
 let paperCont2 = true;
@@ -170,6 +174,7 @@ function bossAnimation(x, y) {
             lives = 3
             paperCont = true;
             paperCont2 = true;
+            nextlevel = true;
         }
     }
 }
@@ -282,6 +287,19 @@ function drawEnd() {
     endAnimation = requestAnimationFrame(drawEnd)
 }
 
+let drawInbetween = () => {
+    brush.drawImage(inbetweenScr,0,0)
+    brush.beginPath()
+    brush.fillStyle = '#ffee30'
+    brush.font = '250px Hanson'
+    brush.fillText(`${level}`, 830, 390, 160)
+    brush.closePath()
+}
+
+let drawMorelevels = () => {
+    brush.drawImage(moreLevels,0,0)
+
+}
 //=======================
 //Main Function - Game Core
 //=======================
@@ -341,6 +359,9 @@ function animateGame() {
         levelTwo = false;
         level3()
         reqPaper = 1;
+    }
+    else{
+        moreSoon = true;
     }
 
 
@@ -428,6 +449,15 @@ function animateGame() {
             }
         }
     })
+    
+    //Next level Check
+    if(nextlevel && !moreSoon){
+        cancelAnimationFrame(animate)
+        brush.clearRect(0,0, canvas.width, canvas.height)
+        continueBtn.style.display = 'flex' 
+        drawInbetween()
+    }
+    
     //=======================
     //Gameover Check
     //=======================
@@ -441,6 +471,7 @@ function animateGame() {
         introBtn.style.display = 'none'
         backBtn.style.display = 'none'
         soundBtn.style.display = 'none'
+        continueBtn.style.display = 'none'
         gameOver = false;
         trafficSound.pause()
         trafficSound.currentTime = 0;
@@ -459,6 +490,24 @@ function animateGame() {
         introBtn.style.display = 'none'
         backBtn.style.display = 'none'
         soundBtn.style.display = 'none'
+        
+        //After levels have finished
+        if(moreSoon){
+            cancelAnimationFrame(animate)
+            canvas.style.display = 'flex'
+            brush.clearRect(0, 0, canvas.width, canvas.height)
+            restartBtn.style.display = 'flex'
+            startBtn.style.display = 'none'
+            introBtn.style.display = 'none'
+            backBtn.style.display = 'none'
+            soundBtn.style.display = 'none'
+            continueBtn.style.display = 'none'
+            gameOver = false;
+            moreSoon = false;
+            trafficSound.pause()
+            trafficSound.currentTime = 0;
+            drawMorelevels()
+        }
     }
 }
 
@@ -475,7 +524,6 @@ function start() {
 window.addEventListener('load', () => {
 
     drawStart()
-
     document.addEventListener('keydown', (event) => {
         if (event.code == 'Space') {
             jump = true;
@@ -545,6 +593,17 @@ window.addEventListener('load', () => {
         }
     })
 
+    continueBtn.addEventListener('click', () => {
+        brush.clearRect(0,0,canvas.width,canvas.height)
+        nextlevel = false;
+        lives = 3
+        charX = 50,
+        charY = ground - 180 - charIdle1.height;
+        isIdleR = true;
+        continueBtn.style.display = 'none'
+        trafficSound.play()
+    })
+
     introBtn.addEventListener('click', () => {
         brush.clearRect(0, 0, canvas.width, canvas.height)
         drawIntro()
@@ -553,6 +612,7 @@ window.addEventListener('load', () => {
         backBtn.style.display = 'flex'
         startBtn.style.display = 'none'
         soundBtn.style.display = 'none'
+        continueBtn.style.display = 'none'
     })
 
     backBtn.addEventListener('click', () => {
@@ -563,6 +623,7 @@ window.addEventListener('load', () => {
         introBtn.style.display = 'flex'
         backBtn.style.display = 'none'
         soundBtn.style.display = 'flex'
+        continueBtn.style.display = 'none'
     })
 
     restartBtn.addEventListener('click', () => {
@@ -576,11 +637,12 @@ window.addEventListener('load', () => {
         introBtn.style.display = 'flex'
         soundBtn.style.display = 'flex'
         backBtn.style.display = 'none'
+        continueBtn.style.display = 'none'
         gameOver = false;
         animate = null;
         ground = canvas.height - fg.height
         charX = 50,
-            charY = ground - 180 - charIdle1.height;
+        charY = ground - 180 - charIdle1.height;
         jump = false;
         isLeft = false;
         isRight = false;
@@ -605,6 +667,8 @@ window.addEventListener('load', () => {
         levelThree = false;
         levelFour = false;
         levelFive = false;
+        nextlevel = false;
+        moreSoon = false;
         papers = 0;
         reqPaper = 0;
         paperCont = true;

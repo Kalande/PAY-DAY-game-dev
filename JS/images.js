@@ -19,6 +19,12 @@ endScr.src = './Images/Game over.png'
 let introScr = new Image()
 introScr.src = './Images/Intro.png'
 
+let inbetweenScr = new Image()
+inbetweenScr.src = './Images/Next level.png'
+
+let moreLevels = new Image()
+moreLevels.src = './Images/More levels.png'
+
 //Idle Right
 let charIdle1 = new Image()
 charIdle1.src = './Images/Sprites/Idle/Right/idle1.png'
