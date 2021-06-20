@@ -632,6 +632,9 @@ window.addEventListener('load', () => {
         drawStart()
         gameOverSound.pause()
         gameOverSound.currentTime = 0;
+        if(soundBtn.innerHTML == 'MUSIC: ON'){
+            startSound.play()  
+        }
         restartBtn.style.display = 'none'
         startBtn.style.display = 'flex'
         introBtn.style.display = 'flex'
